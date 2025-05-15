@@ -1,10 +1,3 @@
-import streamlit as st
-import pandas as pd
-import plotly.express as px
-
-st.set_page_config(page_title="SEN'EAU – CUG Dashboard", layout="wide")
-
-# === STYLE GLOBAL HARMONISÉ AUX COULEURS SEN'EAU ===
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
@@ -22,17 +15,31 @@ st.markdown("""
         color: #003366 !important;
     }
 
-    .stMetricLabel {
-        color: #8DC63F !important; /* vert SEN’EAU */
+    /* KPI labels: "CUG", "Population" */
+    div[data-testid="stMetricLabel"] > div {
+        color: #8DC63F !important;
         font-weight: bold;
     }
 
-    .stMetricValue {
-        color: #003366 !important; /* bleu foncé SEN’EAU */
+    /* KPI values */
+    div[data-testid="stMetricValue"] > div {
+        color: #003366 !important;
         font-weight: bold;
         font-size: 1.6rem;
     }
 
+    /* Upload label text */
+    section[data-testid="stFileUploader"] label {
+        color: #8DC63F !important;
+        font-weight: bold;
+    }
+
+    /* Selectbox text */
+    div[data-baseweb="select"] > div {
+        color: #003366 !important;
+    }
+
+    /* Small text info */
     .st-emotion-cache-1avcm0n {
         color: #003366 !important;
     }
@@ -46,6 +53,7 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 # === TITRE PRINCIPAL ===
 st.title("📊 Tableau de Bord – CUG Dakar")
