@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
-import altair as alt
+import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="SEN'EAU – CUG Dashboard", layout="wide")
 
-# === Style général ===
+# === Style fond + encadré gauche ===
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
@@ -19,15 +19,17 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# === Titre principal ===
 st.title("📊 Tableau de Bord – CUG Dakar")
 st.markdown("**L’Excellence pour le Sénégal, la Référence pour l’Afrique**")
 
-# === Mise en page à deux colonnes ===
+# === Colonnes : zone gauche (import, KPIs) et droite (graphique) ===
 col_gauche, col_droite = st.columns([2, 5])
 
 with col_gauche:
     st.markdown('<div class="bloc">', unsafe_allow_html=True)
 
+    # Téléversement du fichier
     uploaded_file = st.file_uploader("📥 Téléverser le fichier Excel", type=["xlsx"])
 
     if uploaded_file:
@@ -39,9 +41,11 @@ with col_gauche:
             if not expected.issubset(df.columns):
                 st.error("❌ Le fichier doit contenir : Année, Population, Consommation_m3, CUG (L/hab/j)")
             else:
+                # Sélection d'année
                 selected_year = st.selectbox("📅 Sélectionnez une année :", sorted(df["Année"].unique()))
                 selected = df[df["Année"] == selected_year].iloc[0]
 
+                # Affichage des métriques
                 st.metric("💧 CUG (L/hab/j)", f"{selected['CUG (L/hab/j)']:.2f}")
                 st.metric("👥 Population", f"{selected['Population']:,.0f}")
 
@@ -52,24 +56,22 @@ with col_gauche:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# === Colonne droite : graphique ===
+# === Colonne droite : graphique Matplotlib ===
 with col_droite:
-    if uploaded_file:
-        df_chart = df.rename(columns={"CUG (L/hab/j)": "CUG"})
+    if uploaded_file and expected.issubset(df.columns):
+        st.markdown("### 📈 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
 
-        chart = alt.Chart(df_chart).mark_line(point=alt.OverlayMarkDef(color='blue')).encode(
-            x=alt.X('Population:Q', title='Population'),
-            y=alt.Y('CUG:Q', title='CUG (L/hab/j)'),
-            tooltip=['Année', 'Population', 'CUG']
-        ).properties(
-            width=600,
-            height=400,
-            title='📈 CUG en fonction de la population'
-        ).configure_axis(
-            labelColor='black',
-            titleColor='black'
-        ).configure_title(
-            color='black'
-        ).interactive()
+        df_sorted = df.sort_values("Année")
+        x = df_sorted["Population"]
+        y = df_sorted["CUG (L/hab/j)"]
 
-        st.altair_chart(chart, use_container_width=False)
+        fig, ax = plt.subplots(figsize=(8, 4))  # taille du graphique
+        ax.plot(x, y, marker='o', color='orange', label='CUG en fonction de la population')
+
+        ax.set_xlabel("Population")
+        ax.set_ylabel("CUG (L/hab/j)")
+        ax.set_title("Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
+        ax.legend()
+        ax.grid(True)
+
+        st.pyplot(fig)
