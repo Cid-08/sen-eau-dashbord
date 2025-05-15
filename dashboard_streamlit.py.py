@@ -55,20 +55,25 @@ if {"Année", "Population", "CUG (L/hab/j)"}.issubset(df.columns):
     col1.metric("Consommation Unitaire Globale (CUG)", f"{selected_row['CUG (L/hab/j)']:.2f} L/hab/j")
     col2.metric("Population", f"{selected_row['Population']:,}")
 
-    # === Courbe interactive ===
-    st.markdown("### 📈 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
-    chart = alt.Chart(df).mark_line(point=True).encode(
-        x=alt.X('Population:Q', title='Population'),
-        y=alt.Y('Q("CUG (L/hab/j)"):Q', title='CUG (L/hab/j)'),
-        tooltip=['Année', 'Population', 'CUG (L/hab/j)']
-    ).properties(
-        width=900,
-        height=400
-    ).interactive()
+    # === Courbe interactive Altair avec couleur explicite ===
+st.markdown("### 📉 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
 
-    st.altair_chart(chart, use_container_width=True)
-else:
-    st.warning("Le fichier doit contenir les colonnes : Année, Population, CUG (L/hab/j)")
+chart = alt.Chart(df).mark_line(point=alt.OverlayMarkDef(color='orange')).encode(
+    x=alt.X('Population:Q', title='Population'),
+    y=alt.Y('Q("CUG (L/hab/j)"):Q', title='CUG (L/hab/j)'),
+    tooltip=['Année', 'Population', 'CUG (L/hab/j)']
+).properties(
+    width=900,
+    height=400
+).configure_axis(
+    labelColor='white',
+    titleColor='white'
+).configure_title(
+    color='white'
+).interactive()
+
+st.altair_chart(chart, use_container_width=True)
+
 
 # === Bas de page : Slogan ===
 st.image("Slogan sen eau.PNG", width=400)
