@@ -1,82 +1,99 @@
-# === IMPORTS OBLIGATOIRES ===
+# === IMPORTS ===
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# === CONFIGURATION DE LA PAGE ===
+# === CONFIG PAGE ===
 st.set_page_config(page_title="SEN'EAU – CUG Dashboard", layout="wide")
 
-# === STYLE CSS HARMONISÉ AUX COULEURS SEN'EAU ===
+# === STYLES GÉNÉRAUX (SEN'EAU) ===
 st.markdown("""
-    <style>
-    [data-testid="stAppViewContainer"] {
-        background-color: #e6f7ff;
-    }
+<style>
+[data-testid="stAppViewContainer"] {
+    background-color: #e6f7ff;
+}
 
-    .bloc {
-        background-color: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
+.bloc {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
 
-    h1, h2, h3, label, .st-emotion-cache-1c7y2kd {
-        color: #003366 !important;
-    }
+/* Titre, sous-titres */
+h1, h2, h3, label {
+    color: #003366 !important;
+}
 
-    /* KPI labels */
-    div[data-testid="stMetricLabel"] > div {
-        color: #8DC63F !important;
-        font-weight: bold;
-    }
+/* KPI Labels */
+div[data-testid="stMetricLabel"] > div {
+    color: #8DC63F !important;
+    font-weight: bold;
+}
 
-    /* KPI values */
-    div[data-testid="stMetricValue"] > div {
-        color: #003366 !important;
-        font-weight: bold;
-        font-size: 1.6rem;
-    }
+/* KPI Valeurs */
+div[data-testid="stMetricValue"] > div {
+    color: #003366 !important;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
 
-    /* Upload label */
-    section[data-testid="stFileUploader"] label {
-        color: #8DC63F !important;
-        font-weight: bold;
-    }
+/* Upload */
+section[data-testid="stFileUploader"] label {
+    color: #8DC63F !important;
+    font-weight: bold;
+}
 
-    /* Selectbox text */
-    div[data-baseweb="select"] > div {
-        color: #003366 !important;
-    }
+section[data-testid="stFileUploader"] > div {
+    background-color: #003366 !important;
+    color: white !important;
+    border-radius: 6px;
+    padding: 1rem;
+}
 
-    .st-emotion-cache-1avcm0n {
-        color: #003366 !important;
-    }
+section[data-testid="stFileUploader"] * {
+    color: white !important;
+}
 
-    .stSelectbox > div {
-        color: #003366 !important;
-    }
-
-    .st-emotion-cache-1c7y2kd:hover {
-        color: #8DC63F !important;
-    }
-    </style>
+/* Selectbox */
+div[data-baseweb="select"] {
+    background-color: #003366 !important;
+    border-radius: 5px;
+}
+div[data-baseweb="select"] * {
+    color: white !important;
+}
+</style>
 """, unsafe_allow_html=True)
 
-# === EN-TÊTE AVEC LOGO À DROITE ===
-logo_col, title_col = st.columns([5, 1])
-with logo_col:
-    st.title("📊 Tableau de Bord – CUG Dakar")
-with title_col:
-    st.image("logo_seneau.jpg", width=120)  # Nom du fichier logo
+# === EN-TÊTE À 3 COLONNES ===
+col_logo_hack, col_titre, col_logo_seneau = st.columns([1, 4, 1])
 
-# === SLOGAN VERT CLAIR ===
-st.markdown("""
-<div style='color:#8DC63F; font-size:18px; font-weight:bold;'>
-L’Excellence pour le Sénégal, la Référence pour l’Afrique
-</div>
-""", unsafe_allow_html=True)
+with col_logo_hack:
+    st.image("logo_hackathon.jpg", width=80)
+    st.markdown("""
+    <div style='color:#8DC63F; font-size:14px; font-weight:bold; text-align:center;'>
+    Équipe : Deepthinkers_2025
+    </div>
+    """, unsafe_allow_html=True)
 
-# === COLONNES : GAUCHE (import + KPIs) / DROITE (graphique) ===
+with col_titre:
+    st.markdown("""
+    <div style='text-align: center; font-size: 32px; font-weight: bold; color: #003366; padding-top: 10px;'>
+    📊 Tableau de Bord – CUG Dakar
+    </div>
+    """, unsafe_allow_html=True)
+
+with col_logo_seneau:
+    st.image("logo_seneau.jpg", width=120)
+    st.markdown("""
+    <div style='color:#8DC63F; font-size:14px; font-weight:bold; text-align:right;'>
+    L’Excellence pour le Sénégal,<br>
+    la Référence pour l’Afrique
+    </div>
+    """, unsafe_allow_html=True)
+
+# === COLONNES PRINCIPALES ===
 col_gauche, col_droite = st.columns([2, 5])
 
 with col_gauche:
@@ -85,7 +102,6 @@ with col_gauche:
     uploaded_file = st.file_uploader("📥 Téléverser le fichier Excel", type=["xlsx"])
 
     if uploaded_file:
-        # Affichage du nom du fichier en bleu foncé
         st.markdown(
             f"<div style='color:#003366; font-weight:600;'>📄 {uploaded_file.name}</div>",
             unsafe_allow_html=True
@@ -112,7 +128,7 @@ with col_gauche:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# === COLONNE DROITE : GRAPHIQUE PLOTLY INTERACTIF ===
+# === GRAPHIQUE PLOTLY INTERACTIF ===
 with col_droite:
     if uploaded_file and expected.issubset(df.columns):
         st.markdown("### 📈 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
@@ -135,14 +151,8 @@ with col_droite:
         fig.update_layout(
             plot_bgcolor="white",
             paper_bgcolor="white",
-            font=dict(
-                color="#003366",
-                size=14
-            ),
-            title_font=dict(
-                color="#003366",
-                size=18
-            ),
+            font=dict(color="#003366", size=14),
+            title_font=dict(color="#003366", size=18),
             xaxis=dict(
                 showgrid=True,
                 gridcolor="lightgray",
