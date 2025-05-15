@@ -137,13 +137,25 @@ with col_droite:
             }
         )
 
+        # Mettre en surbrillance l'année sélectionnée
+        selected_row = df_sorted[df_sorted["Année"] == selected_year]
+        fig.add_scatter(
+            x=selected_row["Population"],
+            y=selected_row["CUG (L/hab/j)"],
+            mode="markers+text",
+            marker=dict(size=12, color="#003366", symbol="circle"),
+            text=[f"Année {selected_year}"],
+            textposition="top center",
+            name=f"Année {selected_year}"
+        )
+
         fig.update_traces(line_color="#8DC63F", line_width=3)
 
-        # ✅ Pas de titre ici pour éviter "undefined"
         fig.update_layout(
             plot_bgcolor="white",
             paper_bgcolor="white",
             font=dict(color="#003366", size=14),
+            title_font=dict(color="#003366", size=18),
             xaxis=dict(
                 showgrid=True,
                 gridcolor="lightgray",
@@ -156,8 +168,10 @@ with col_droite:
                 title_font=dict(color="#003366", size=16),
                 tickfont=dict(color="#003366")
             ),
-            height=450
+            height=450,
+            showlegend=False  # si tu ne veux pas afficher la légende
         )
 
         st.plotly_chart(fig, use_container_width=True)
+
 
