@@ -1,3 +1,12 @@
+# === IMPORTS OBLIGATOIRES ===
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# === CONFIGURATION DE LA PAGE ===
+st.set_page_config(page_title="SEN'EAU – CUG Dashboard", layout="wide")
+
+# === STYLE CSS HARMONISÉ AUX COULEURS SEN'EAU ===
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
@@ -39,7 +48,6 @@ st.markdown("""
         color: #003366 !important;
     }
 
-    /* Small text info */
     .st-emotion-cache-1avcm0n {
         color: #003366 !important;
     }
@@ -53,7 +61,6 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-
 
 # === TITRE PRINCIPAL ===
 st.title("📊 Tableau de Bord – CUG Dakar")
