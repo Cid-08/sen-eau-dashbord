@@ -64,6 +64,8 @@ div[data-baseweb="select"] div {
 div[data-baseweb="select"] .css-1wa3eu0-placeholder {
     color: #003366 !important;
 }
+</style>
+""", unsafe_allow_html=True)
 
 # === EN-TÊTE À 3 COLONNES ===
 col1, col2, col3 = st.columns([1, 4, 1])
