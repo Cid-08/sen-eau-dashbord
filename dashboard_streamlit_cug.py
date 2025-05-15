@@ -49,9 +49,14 @@ section[data-testid="stFileUploader"] * {
     color: white !important;
 }
 /* Selectbox personnalisé */
+/* Selectbox */
 div[data-baseweb="select"] {
-    background-color: #e6f7ff !important; /* fond bleu clair */
-    border-radius: 5px;
+    background-color: #e6f7ff !important;  /* Fond bleu clair */
+    border-radius: 5px !important;
+    border: 1px solid #8DC63F !important;  /* Bordure verte douce */
+}
+div[data-baseweb="select"] * {
+    color: #003366 !important;  /* Texte bleu foncé */
 }
 
 div[data-baseweb="select"] * {
