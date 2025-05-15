@@ -63,12 +63,16 @@ if {"Année", "Population", "CUG (L/hab/j)"}.issubset(df.columns):
     # === Courbe interactive : CUG en fonction de la population ===
     st.markdown("### 📉 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
 
-    chart = alt.Chart(df_chart).mark_line(point=alt.OverlayMarkDef(color='blue')).encode(
+# Renommage pour simplifier l'utilisation avec Altair
+df_chart = df.rename(columns={"CUG (L/hab/j)": "CUG"})
+
+# Création du graphique
+chart = alt.Chart(df_chart).mark_line(point=alt.OverlayMarkDef(color='blue')).encode(
     x=alt.X('Population:Q', title='Population'),
     y=alt.Y('CUG:Q', title='CUG (L/hab/j)'),
     tooltip=['Année', 'Population', 'CUG']
 ).properties(
-    width=900,
+    width=600,
     height=400,
     title='CUG en fonction de la Population'
 ).configure_axis(
@@ -78,4 +82,8 @@ if {"Année", "Population", "CUG (L/hab/j)"}.issubset(df.columns):
     color='black'
 ).interactive()
 
-st.altair_chart(chart, use_container_width=True)
+# Affichage centré
+st.markdown("### 📉 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
+left, center, right = st.columns([1, 6, 1])
+with center:
+    st.altair_chart(chart, use_container_width=False)
