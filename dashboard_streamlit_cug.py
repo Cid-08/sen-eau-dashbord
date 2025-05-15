@@ -62,8 +62,14 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# === TITRE PRINCIPAL ET SLOGAN (vert clair) ===
-st.title("📊 Tableau de Bord – CUG Dakar")
+# === EN-TÊTE AVEC LOGO À DROITE ===
+logo_col, title_col = st.columns([5, 1])
+with logo_col:
+    st.title("📊 Tableau de Bord – CUG Dakar")
+with title_col:
+    st.image("logo_seneau.jpg", width=120)  # Nom du fichier logo
+
+# === SLOGAN VERT CLAIR ===
 st.markdown("""
 <div style='color:#8DC63F; font-size:18px; font-weight:bold;'>
 L’Excellence pour le Sénégal, la Référence pour l’Afrique
@@ -79,7 +85,7 @@ with col_gauche:
     uploaded_file = st.file_uploader("📥 Téléverser le fichier Excel", type=["xlsx"])
 
     if uploaded_file:
-        # Affichage du nom du fichier (bleu foncé)
+        # Affichage du nom du fichier en bleu foncé
         st.markdown(
             f"<div style='color:#003366; font-weight:600;'>📄 {uploaded_file.name}</div>",
             unsafe_allow_html=True
