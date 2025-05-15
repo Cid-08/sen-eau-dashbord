@@ -48,22 +48,22 @@ section[data-testid="stFileUploader"] > div {
 section[data-testid="stFileUploader"] * {
     color: white !important;
 }
-/* --- Personnalisation du selectbox --- */
-div[data-baseweb="select"] {
-    background-color: #d9f0ff !important; /* Bleu clair */
-    border-radius: 5px;
-    color: #003366 !important;           /* Texte bleu foncé */
+/* Menu déroulant du selectbox */
+div[data-baseweb="select"] > div {
+    background-color: #d9f0ff !important; /* fond bleu clair */
 }
 
-/* Pour le texte affiché */
-div[data-baseweb="select"] div {
+div[data-baseweb="select"] div[role="listbox"] {
+    background-color: #d9f0ff !important; /* fond du menu déroulant */
     color: #003366 !important;
 }
 
-/* Placeholder (texte par défaut) */
-div[data-baseweb="select"] .css-1wa3eu0-placeholder {
+/* Options dans le menu déroulant */
+div[data-baseweb="select"] div[role="option"] {
+    background-color: #d9f0ff !important;
     color: #003366 !important;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
