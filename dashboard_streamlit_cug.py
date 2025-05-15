@@ -48,23 +48,22 @@ section[data-testid="stFileUploader"] > div {
 section[data-testid="stFileUploader"] * {
     color: white !important;
 }
-/* Selectbox personnalisé */
-/* Selectbox */
+/* --- Personnalisation du selectbox --- */
 div[data-baseweb="select"] {
-    background-color: #e6f7ff !important;  /* Fond bleu clair */
-    border-radius: 5px !important;
-    border: 1px solid #8DC63F !important;  /* Bordure verte douce */
-}
-div[data-baseweb="select"] * {
-    color: #003366 !important;  /* Texte bleu foncé */
+    background-color: #d9f0ff !important; /* Bleu clair */
+    border-radius: 5px;
+    color: #003366 !important;           /* Texte bleu foncé */
 }
 
-div[data-baseweb="select"] * {
-    color: #003366 !important; /* texte en bleu foncé */
-    font-weight: bold;
+/* Pour le texte affiché */
+div[data-baseweb="select"] div {
+    color: #003366 !important;
 }
-</style>
-""", unsafe_allow_html=True)
+
+/* Placeholder (texte par défaut) */
+div[data-baseweb="select"] .css-1wa3eu0-placeholder {
+    color: #003366 !important;
+}
 
 # === EN-TÊTE À 3 COLONNES ===
 col1, col2, col3 = st.columns([1, 4, 1])
