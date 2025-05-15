@@ -3,12 +3,16 @@ import pandas as pd
 import altair as alt
 from PIL import Image
 
-# === Configuration de la page ===
-st.set_page_config(
-    page_title="CUG Dakar – SEN'EAU",
-    page_icon="💧",
-    layout="wide"
-)
+st.markdown("""
+    <style>
+    [data-testid="stAppViewContainer"] {
+        background-color: #e6f7ff;
+    }
+    h1, h2, h3 {
+        color: #007acc;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # === Style personnalisé ===
 st.markdown("""
@@ -46,33 +50,15 @@ except:
     st.error("Erreur de lecture du fichier Excel.")
 
 # Vérification des colonnes requises
+# Vérification des colonnes requises
 if {"Année", "Population", "CUG (L/hab/j)"}.issubset(df.columns):
     # Menu déroulant pour choisir l'année
     selected_year = st.selectbox("📅 Sélectionnez une année", df["Année"].unique())
-
     selected_row = df[df["Année"] == selected_year].iloc[0]
+
     col1, col2 = st.columns(2)
     col1.metric("Consommation Unitaire Globale (CUG)", f"{selected_row['CUG (L/hab/j)']:.2f} L/hab/j")
     col2.metric("Population", f"{selected_row['Population']:,}")
-
-    # === Courbe interactive Altair avec couleur explicite ===
-st.markdown("### 📉 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
-
-chart = alt.Chart(df).mark_line(point=alt.OverlayMarkDef(color='orange')).encode(
-    x=alt.X('Population:Q', title='Population'),
-    y=alt.Y('Q("CUG (L/hab/j)"):Q', title='CUG (L/hab/j)'),
-    tooltip=['Année', 'Population', 'CUG (L/hab/j)']
-).properties(
-    width=900,
-    height=400
-).configure_axis(
-    labelColor='white',
-    titleColor='white'
-).configure_title(
-    color='white'
-).interactive()
-
-st.altair_chart(chart, use_container_width=True)
 
     # === Courbe interactive : CUG en fonction de la population ===
     st.markdown("### 📉 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
@@ -93,7 +79,3 @@ st.altair_chart(chart, use_container_width=True)
     ).interactive()
 
     st.altair_chart(chart, use_container_width=True)
-
-
-# === Bas de page : Slogan ===
-st.image("Slogan sen eau.PNG", width=400)
