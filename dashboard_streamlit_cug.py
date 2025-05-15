@@ -1,35 +1,60 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 st.set_page_config(page_title="SEN'EAU – CUG Dashboard", layout="wide")
 
-# === Style fond + encadré gauche ===
+# === STYLE HARMONISÉ AUX COULEURS DE SEN'EAU ===
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
         background-color: #e6f7ff;
     }
+
     .bloc {
         background-color: white;
         padding: 1.5rem;
         border-radius: 10px;
         box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
+
+    h1, h2, h3, label, .st-emotion-cache-1c7y2kd {
+        color: #003366 !important;  /* bleu SEN'EAU */
+    }
+
+    .stMetricLabel, .st-emotion-cache-13ejsyy {
+        color: #003366 !important;
+    }
+
+    .stMetricValue {
+        color: #003366 !important;
+        font-weight: bold;
+    }
+
+    .st-emotion-cache-1avcm0n {
+        color: #003366 !important; /* texte zone drag&drop */
+    }
+
+    .stSelectbox > div {
+        color: #003366 !important;
+    }
+
+    .st-emotion-cache-1c7y2kd:hover {
+        color: #8DC63F !important; /* vert SEN’EAU au survol */
+    }
     </style>
 """, unsafe_allow_html=True)
 
-# === Titre principal ===
+# === TITRE PRINCIPAL ===
 st.title("📊 Tableau de Bord – CUG Dakar")
 st.markdown("**L’Excellence pour le Sénégal, la Référence pour l’Afrique**")
 
-# === Colonnes : zone gauche (import, KPIs) et droite (graphique) ===
+# === MISE EN PAGE : GAUCHE (fichier, sélection) / DROITE (graphique) ===
 col_gauche, col_droite = st.columns([2, 5])
 
 with col_gauche:
     st.markdown('<div class="bloc">', unsafe_allow_html=True)
 
-    # Téléversement du fichier
     uploaded_file = st.file_uploader("📥 Téléverser le fichier Excel", type=["xlsx"])
 
     if uploaded_file:
@@ -41,11 +66,9 @@ with col_gauche:
             if not expected.issubset(df.columns):
                 st.error("❌ Le fichier doit contenir : Année, Population, Consommation_m3, CUG (L/hab/j)")
             else:
-                # Sélection d'année
                 selected_year = st.selectbox("📅 Sélectionnez une année :", sorted(df["Année"].unique()))
                 selected = df[df["Année"] == selected_year].iloc[0]
 
-                # Affichage des métriques
                 st.metric("💧 CUG (L/hab/j)", f"{selected['CUG (L/hab/j)']:.2f}")
                 st.metric("👥 Population", f"{selected['Population']:,.0f}")
 
@@ -56,22 +79,33 @@ with col_gauche:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# === Colonne droite : graphique Matplotlib ===
+# === COURBE INTERACTIVE PLOTLY ===
 with col_droite:
     if uploaded_file and expected.issubset(df.columns):
         st.markdown("### 📈 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
 
         df_sorted = df.sort_values("Année")
-        x = df_sorted["Population"]
-        y = df_sorted["CUG (L/hab/j)"]
 
-        fig, ax = plt.subplots(figsize=(8, 4))  # taille du graphique
-        ax.plot(x, y, marker='o', color='orange', label='CUG en fonction de la population')
+        fig = px.line(
+            df_sorted,
+            x="Population",
+            y="CUG (L/hab/j)",
+            markers=True,
+            title="Évolution de la CUG en fonction de la population à Dakar (1997–2035)",
+            labels={
+                "Population": "Population",
+                "CUG (L/hab/j)": "CUG (L/hab/j)"
+            }
+        )
 
-        ax.set_xlabel("Population")
-        ax.set_ylabel("CUG (L/hab/j)")
-        ax.set_title("Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
-        ax.legend()
-        ax.grid(True)
+        fig.update_traces(line_color="orange", line_width=3)
+        fig.update_layout(
+            plot_bgcolor='white',
+            title_font_color="black",
+            title_font_size=18,
+            xaxis=dict(showgrid=True),
+            yaxis=dict(showgrid=True),
+            height=450
+        )
 
-        st.pyplot(fig)
+        st.plotly_chart(fig, use_container_width=True)
