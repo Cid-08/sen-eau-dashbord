@@ -101,9 +101,9 @@ with col_droite:
         fig.update_traces(line_color="green", line_width=3)
         fig.update_layout(
             plot_bgcolor='#003366',
-            paper_bgcolor='#003366',
+            paper_bgcolor='white',
             font_color='white',
-            title_font_color='white',
+            title_font_color='#003366',
             title_font_size=18,
             xaxis=dict(showgrid=True, gridcolor='lightgray', color='white'),
             yaxis=dict(showgrid=True, gridcolor='lightgray', color='white'),
