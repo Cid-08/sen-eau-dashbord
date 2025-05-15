@@ -23,12 +23,14 @@ st.markdown("""
     }
 
     .stMetricLabel {
-        color: #003366 !important;
+        color: #8DC63F !important; /* vert SEN’EAU */
+        font-weight: bold;
     }
 
     .stMetricValue {
-        color: #8DC63F !important;
+        color: #003366 !important; /* bleu foncé SEN’EAU */
         font-weight: bold;
+        font-size: 1.6rem;
     }
 
     .st-emotion-cache-1avcm0n {
@@ -49,7 +51,7 @@ st.markdown("""
 st.title("📊 Tableau de Bord – CUG Dakar")
 st.markdown("**L’Excellence pour le Sénégal, la Référence pour l’Afrique**")
 
-# === COLONNES : GAUCHE (fichier, infos), DROITE (graphique) ===
+# === COLONNES : GAUCHE (import, KPIs) / DROITE (graphique) ===
 col_gauche, col_droite = st.columns([2, 5])
 
 with col_gauche:
@@ -98,16 +100,9 @@ with col_droite:
             }
         )
 
-        fig.update_traces(line_color="green", line_width=3)
-        fig.update_layout(
-            plot_bgcolor='white',
-            paper_bgcolor='white',
-            font_color='white',
-            title_font_color='#00366',
-            title_font_size=18,
-            xaxis=dict(showgrid=True, gridcolor='lightgray', color='white'),
-            yaxis=dict(showgrid=True, gridcolor='lightgray', color='white'),
-            height=450
-        )
+        fig.update_traces(line_color="#8DC63F", line_width=3)
 
-        st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font
