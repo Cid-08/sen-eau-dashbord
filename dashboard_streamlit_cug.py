@@ -125,7 +125,6 @@ with col_droite:
         st.markdown("### 📈 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
 
         df_sorted = df.sort_values("Année")
-
         fig = px.line(
             df_sorted,
             x="Population",
