@@ -48,13 +48,15 @@ section[data-testid="stFileUploader"] > div {
 section[data-testid="stFileUploader"] * {
     color: white !important;
 }
-/* Selectbox */
+/* Selectbox personnalisé */
 div[data-baseweb="select"] {
-    background-color: #003366 !important;
+    background-color: #e6f7ff !important; /* fond bleu clair */
     border-radius: 5px;
 }
+
 div[data-baseweb="select"] * {
-    color: white !important;
+    color: #003366 !important; /* texte en bleu foncé */
+    font-weight: bold;
 }
 </style>
 """, unsafe_allow_html=True)
