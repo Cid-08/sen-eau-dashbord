@@ -140,24 +140,24 @@ with col_droite:
 
         fig.update_traces(line_color="#8DC63F", line_width=3)
 
-        fig.update_layout(
-            plot_bgcolor="white",
-            paper_bgcolor="white",
-            font=dict(color="#003366", size=14),
-            title_font=dict(color="#003366", size=18),
-            xaxis=dict(
-                showgrid=True,
-                gridcolor="lightgray",
-                title_font=dict(color="#003366", size=16),
-                tickfont=dict(color="#003366")
-            ),
-            yaxis=dict(
-                showgrid=True,
-                gridcolor="lightgray",
-                title_font=dict(color="#003366", size=16),
-                tickfont=dict(color="#003366")
-            ),
-            height=450
-        )
+      fig.update_layout(
+    plot_bgcolor="white",
+    paper_bgcolor="white",
+    font=dict(color="#003366", size=14),
+    xaxis=dict(
+        showgrid=True,
+        gridcolor="lightgray",
+        title_font=dict(color="#003366", size=16),
+        tickfont=dict(color="#003366")
+    ),
+    yaxis=dict(
+        showgrid=True,
+        gridcolor="lightgray",
+        title_font=dict(color="#003366", size=16),
+        tickfont=dict(color="#003366")
+    ),
+    height=450
+)
+
 
         st.plotly_chart(fig, use_container_width=True)
