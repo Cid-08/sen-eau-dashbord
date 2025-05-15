@@ -125,39 +125,39 @@ with col_droite:
         st.markdown("### 📈 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
 
         df_sorted = df.sort_values("Année")
+
         fig = px.line(
-    df_sorted,
-    x="Population",
-    y="CUG (L/hab/j)",
-    markers=True,
-    labels={
-        "Population": "Population",
-        "CUG (L/hab/j)": "CUG (L/hab/j)"
-    }
-)
-
-
+            df_sorted,
+            x="Population",
+            y="CUG (L/hab/j)",
+            markers=True,
+            labels={
+                "Population": "Population",
+                "CUG (L/hab/j)": "CUG (L/hab/j)"
+            }
+        )
 
         fig.update_traces(line_color="#8DC63F", line_width=3)
 
-      fig.update_layout(
-    plot_bgcolor="white",
-    paper_bgcolor="white",
-    font=dict(color="#003366", size=14),
-    xaxis=dict(
-        showgrid=True,
-        gridcolor="lightgray",
-        title_font=dict(color="#003366", size=16),
-        tickfont=dict(color="#003366")
-    ),
-    yaxis=dict(
-        showgrid=True,
-        gridcolor="lightgray",
-        title_font=dict(color="#003366", size=16),
-        tickfont=dict(color="#003366")
-    ),
-    height=450
-)
-
+        # ✅ Pas de titre ici pour éviter "undefined"
+        fig.update_layout(
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(color="#003366", size=14),
+            xaxis=dict(
+                showgrid=True,
+                gridcolor="lightgray",
+                title_font=dict(color="#003366", size=16),
+                tickfont=dict(color="#003366")
+            ),
+            yaxis=dict(
+                showgrid=True,
+                gridcolor="lightgray",
+                title_font=dict(color="#003366", size=16),
+                tickfont=dict(color="#003366")
+            ),
+            height=450
+        )
 
         st.plotly_chart(fig, use_container_width=True)
+
