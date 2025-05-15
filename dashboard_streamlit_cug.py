@@ -4,7 +4,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="SEN'EAU – CUG Dashboard", layout="wide")
 
-# === STYLE HARMONISÉ AUX COULEURS DE SEN'EAU ===
+# === STYLE GLOBAL HARMONISÉ AUX COULEURS SEN'EAU ===
 st.markdown("""
     <style>
     [data-testid="stAppViewContainer"] {
@@ -19,20 +19,20 @@ st.markdown("""
     }
 
     h1, h2, h3, label, .st-emotion-cache-1c7y2kd {
-        color: #003366 !important;  /* bleu SEN'EAU */
+        color: #003366 !important;
     }
 
-    .stMetricLabel, .st-emotion-cache-13ejsyy {
+    .stMetricLabel {
         color: #003366 !important;
     }
 
     .stMetricValue {
-        color: #003366 !important;
+        color: #8DC63F !important;
         font-weight: bold;
     }
 
     .st-emotion-cache-1avcm0n {
-        color: #003366 !important; /* texte zone drag&drop */
+        color: #003366 !important;
     }
 
     .stSelectbox > div {
@@ -40,7 +40,7 @@ st.markdown("""
     }
 
     .st-emotion-cache-1c7y2kd:hover {
-        color: #8DC63F !important; /* vert SEN’EAU au survol */
+        color: #8DC63F !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -49,7 +49,7 @@ st.markdown("""
 st.title("📊 Tableau de Bord – CUG Dakar")
 st.markdown("**L’Excellence pour le Sénégal, la Référence pour l’Afrique**")
 
-# === MISE EN PAGE : GAUCHE (fichier, sélection) / DROITE (graphique) ===
+# === COLONNES : GAUCHE (fichier, infos), DROITE (graphique) ===
 col_gauche, col_droite = st.columns([2, 5])
 
 with col_gauche:
@@ -79,7 +79,7 @@ with col_gauche:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# === COURBE INTERACTIVE PLOTLY ===
+# === GRAPHIQUE PLOTLY INTERACTIF ===
 with col_droite:
     if uploaded_file and expected.issubset(df.columns):
         st.markdown("### 📈 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
@@ -100,11 +100,13 @@ with col_droite:
 
         fig.update_traces(line_color="orange", line_width=3)
         fig.update_layout(
-            plot_bgcolor='white',
-            title_font_color="black",
+            plot_bgcolor='#003366',
+            paper_bgcolor='#003366',
+            font_color='white',
+            title_font_color='white',
             title_font_size=18,
-            xaxis=dict(showgrid=True),
-            yaxis=dict(showgrid=True),
+            xaxis=dict(showgrid=True, gridcolor='lightgray', color='white'),
+            yaxis=dict(showgrid=True, gridcolor='lightgray', color='white'),
             height=450
         )
 
