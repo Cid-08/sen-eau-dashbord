@@ -24,7 +24,7 @@ st.markdown("""
         color: #003366 !important;
     }
 
-    /* KPI labels: "CUG", "Population" */
+    /* KPI labels */
     div[data-testid="stMetricLabel"] > div {
         color: #8DC63F !important;
         font-weight: bold;
@@ -37,7 +37,7 @@ st.markdown("""
         font-size: 1.6rem;
     }
 
-    /* Upload label text */
+    /* Upload label */
     section[data-testid="stFileUploader"] label {
         color: #8DC63F !important;
         font-weight: bold;
@@ -62,11 +62,15 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# === TITRE PRINCIPAL ===
+# === TITRE PRINCIPAL ET SLOGAN (vert clair) ===
 st.title("📊 Tableau de Bord – CUG Dakar")
-st.markdown("**L’Excellence pour le Sénégal, la Référence pour l’Afrique**")
+st.markdown("""
+<div style='color:#8DC63F; font-size:18px; font-weight:bold;'>
+L’Excellence pour le Sénégal, la Référence pour l’Afrique
+</div>
+""", unsafe_allow_html=True)
 
-# === COLONNES : GAUCHE (import, KPIs) / DROITE (graphique) ===
+# === COLONNES : GAUCHE (import + KPIs) / DROITE (graphique) ===
 col_gauche, col_droite = st.columns([2, 5])
 
 with col_gauche:
@@ -75,6 +79,12 @@ with col_gauche:
     uploaded_file = st.file_uploader("📥 Téléverser le fichier Excel", type=["xlsx"])
 
     if uploaded_file:
+        # Affichage du nom du fichier (bleu foncé)
+        st.markdown(
+            f"<div style='color:#003366; font-weight:600;'>📄 {uploaded_file.name}</div>",
+            unsafe_allow_html=True
+        )
+
         try:
             df = pd.read_excel(uploaded_file)
             df.columns = df.columns.str.strip()
@@ -96,7 +106,7 @@ with col_gauche:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# === GRAPHIQUE PLOTLY INTERACTIF ===
+# === COLONNE DROITE : GRAPHIQUE PLOTLY INTERACTIF ===
 with col_droite:
     if uploaded_file and expected.issubset(df.columns):
         st.markdown("### 📈 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
@@ -108,7 +118,6 @@ with col_droite:
             x="Population",
             y="CUG (L/hab/j)",
             markers=True,
-            title="Évolution de la CUG en fonction de la population à Dakar (1997–2035)",
             labels={
                 "Population": "Population",
                 "CUG (L/hab/j)": "CUG (L/hab/j)"
