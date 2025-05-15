@@ -62,7 +62,7 @@ div[data-baseweb="select"] * {
 col1, col2, col3 = st.columns([1, 4, 1])
 
 with col1:
-    st.image("Photo Hackathon.jpg", width=140)
+    st.image("logo_hackathon.jpg", width=140)
     st.markdown("""
     <div style='color:#8DC63F; font-size:14px; font-weight:bold; text-align:center;'>
     Équipe : Deepthinkers_2025
