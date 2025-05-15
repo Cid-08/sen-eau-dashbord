@@ -98,7 +98,7 @@ with col_droite:
             }
         )
 
-        fig.update_traces(line_color="orange", line_width=3)
+        fig.update_traces(line_color="green", line_width=3)
         fig.update_layout(
             plot_bgcolor='#003366',
             paper_bgcolor='#003366',
