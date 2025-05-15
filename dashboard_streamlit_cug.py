@@ -126,15 +126,17 @@ with col_droite:
 
         df_sorted = df.sort_values("Année")
         fig = px.line(
-            df_sorted,
-            x="Population",
-            y="CUG (L/hab/j)",
-            markers=True,
-            labels={
-                "Population": "Population",
-                "CUG (L/hab/j)": "CUG (L/hab/j)"
-            }
-        )
+    df_sorted,
+    x="Population",
+    y="CUG (L/hab/j)",
+    markers=True,
+    labels={
+        "Population": "Population",
+        "CUG (L/hab/j)": "CUG (L/hab/j)"
+    }
+)
+
+
 
         fig.update_traces(line_color="#8DC63F", line_width=3)
 
