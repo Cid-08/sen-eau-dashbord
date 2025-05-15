@@ -12,49 +12,41 @@ st.markdown("""
 [data-testid="stAppViewContainer"] {
     background-color: #e6f7ff;
 }
-
 .bloc {
     background-color: white;
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
-
 /* Titre, sous-titres */
 h1, h2, h3, label {
     color: #003366 !important;
 }
-
 /* KPI Labels */
 div[data-testid="stMetricLabel"] > div {
     color: #8DC63F !important;
     font-weight: bold;
 }
-
 /* KPI Valeurs */
 div[data-testid="stMetricValue"] > div {
     color: #003366 !important;
     font-weight: bold;
     font-size: 1.6rem;
 }
-
 /* Upload */
 section[data-testid="stFileUploader"] label {
     color: #8DC63F !important;
     font-weight: bold;
 }
-
 section[data-testid="stFileUploader"] > div {
     background-color: #003366 !important;
     color: white !important;
     border-radius: 6px;
     padding: 1rem;
 }
-
 section[data-testid="stFileUploader"] * {
     color: white !important;
 }
-
 /* Selectbox */
 div[data-baseweb="select"] {
     background-color: #003366 !important;
@@ -67,29 +59,28 @@ div[data-baseweb="select"] * {
 """, unsafe_allow_html=True)
 
 # === EN-TÊTE À 3 COLONNES ===
-col_logo_hack, col_titre, col_logo_seneau = st.columns([1, 4, 1])
+col1, col2, col3 = st.columns([1, 4, 1])
 
-with col_logo_hack:
-    st.image("logo_hackathon.jpg", width=80)
+with col1:
+    st.image("Photo Hackathon.jpg", width=140)
     st.markdown("""
     <div style='color:#8DC63F; font-size:14px; font-weight:bold; text-align:center;'>
     Équipe : Deepthinkers_2025
     </div>
     """, unsafe_allow_html=True)
 
-with col_titre:
+with col2:
     st.markdown("""
     <div style='text-align: center; font-size: 32px; font-weight: bold; color: #003366; padding-top: 10px;'>
     📊 Tableau de Bord – CUG Dakar
     </div>
     """, unsafe_allow_html=True)
 
-with col_logo_seneau:
-    st.image("logo_seneau.jpg", width=120)
+with col3:
+    st.image("logo_seneau.jpg", width=140)
     st.markdown("""
     <div style='color:#8DC63F; font-size:14px; font-weight:bold; text-align:right;'>
-    L’Excellence pour le Sénégal,<br>
-    la Référence pour l’Afrique
+    L’Excellence pour le Sénégal, la Référence pour l’Afrique
     </div>
     """, unsafe_allow_html=True)
 
