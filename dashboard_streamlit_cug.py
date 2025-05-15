@@ -2,60 +2,74 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-st.set_page_config(page_title="Tableau de Bord – SEN'EAU", layout="wide")
+st.set_page_config(page_title="SEN'EAU – CUG Dashboard", layout="wide")
+
+# === Style général ===
+st.markdown("""
+    <style>
+    [data-testid="stAppViewContainer"] {
+        background-color: #e6f7ff;
+    }
+    .bloc {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 st.title("📊 Tableau de Bord – CUG Dakar")
-st.markdown("L’Excellence pour le Sénégal, la Référence pour l’Afrique")
+st.markdown("**L’Excellence pour le Sénégal, la Référence pour l’Afrique**")
 
-# === 1. Import du fichier ===
-uploaded_file = st.file_uploader("📥 Téléverser le fichier Excel", type=["xlsx"])
+# === Mise en page à deux colonnes ===
+col_gauche, col_droite = st.columns([2, 5])
 
-if uploaded_file:
-    try:
-        df = pd.read_excel(uploaded_file)
-        df.columns = df.columns.str.strip()  # nettoyage
+with col_gauche:
+    st.markdown('<div class="bloc">', unsafe_allow_html=True)
 
-        # Vérification des colonnes
-        expected_cols = {"Année", "Population", "Consommation_m3", "CUG (L/hab/j)"}
-        if not expected_cols.issubset(df.columns):
-            st.error("❌ Le fichier doit contenir les colonnes : Année, Population, Consommation_m3, CUG (L/hab/j)")
-        else:
-            # === 2. Sélection d’année ===
-            st.markdown("### 📅 Sélectionnez une année")
-            selected_year = st.selectbox("Année", sorted(df["Année"].unique()))
+    uploaded_file = st.file_uploader("📥 Téléverser le fichier Excel", type=["xlsx"])
 
-            selected_row = df[df["Année"] == selected_year].iloc[0]
+    if uploaded_file:
+        try:
+            df = pd.read_excel(uploaded_file)
+            df.columns = df.columns.str.strip()
 
-            # Affichage des indicateurs
-            col1, col2 = st.columns(2)
-            col1.metric("Consommation Unitaire Globale (CUG)", f"{selected_row['CUG (L/hab/j)']:.2f} L/hab/j")
-            col2.metric("Population", f"{selected_row['Population']:,.1f}")
+            expected = {"Année", "Population", "Consommation_m3", "CUG (L/hab/j)"}
+            if not expected.issubset(df.columns):
+                st.error("❌ Le fichier doit contenir : Année, Population, Consommation_m3, CUG (L/hab/j)")
+            else:
+                selected_year = st.selectbox("📅 Sélectionnez une année :", sorted(df["Année"].unique()))
+                selected = df[df["Année"] == selected_year].iloc[0]
 
-            # === 3. Courbe Altair : CUG vs Population ===
-            st.markdown("### 📉 Évolution de la CUG en fonction de la population à Dakar (1997–2035)")
+                st.metric("💧 CUG (L/hab/j)", f"{selected['CUG (L/hab/j)']:.2f}")
+                st.metric("👥 Population", f"{selected['Population']:,.0f}")
 
-            df_chart = df.rename(columns={"CUG (L/hab/j)": "CUG"})
+        except Exception as e:
+            st.error(f"Erreur de lecture : {e}")
+    else:
+        st.info("📂 Importez un fichier .xlsx pour commencer.")
 
-            chart = alt.Chart(df_chart).mark_line(point=alt.OverlayMarkDef(color='blue')).encode(
-                x=alt.X('Population:Q', title='Population'),
-                y=alt.Y('CUG:Q', title='CUG (L/hab/j)'),
-                tooltip=['Année', 'Population', 'CUG']
-            ).properties(
-                width=600,
-                height=400,
-                title='CUG en fonction de la Population'
-            ).configure_axis(
-                labelColor='black',
-                titleColor='black'
-            ).configure_title(
-                color='black'
-            ).interactive()
+    st.markdown('</div>', unsafe_allow_html=True)
 
-            left, center, right = st.columns([1, 6, 1])
-            with center:
-                st.altair_chart(chart, use_container_width=False)
+# === Colonne droite : graphique ===
+with col_droite:
+    if uploaded_file:
+        df_chart = df.rename(columns={"CUG (L/hab/j)": "CUG"})
 
-    except Exception as e:
-        st.error(f"Erreur de lecture du fichier : {e}")
-else:
-    st.info("Veuillez importer un fichier Excel pour continuer.")
+        chart = alt.Chart(df_chart).mark_line(point=alt.OverlayMarkDef(color='blue')).encode(
+            x=alt.X('Population:Q', title='Population'),
+            y=alt.Y('CUG:Q', title='CUG (L/hab/j)'),
+            tooltip=['Année', 'Population', 'CUG']
+        ).properties(
+            width=600,
+            height=400,
+            title='📈 CUG en fonction de la population'
+        ).configure_axis(
+            labelColor='black',
+            titleColor='black'
+        ).configure_title(
+            color='black'
+        ).interactive()
+
+        st.altair_chart(chart, use_container_width=False)
